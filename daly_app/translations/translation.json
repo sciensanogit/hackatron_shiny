@@ -1,0 +1,29 @@
+{
+    "languages": [
+        "en",
+        "nl",
+        "fr"
+    ],
+    "translation": [
+        {
+            "en": "Disability-Adjusted Life Years",
+            "nl": "Levensjaren aangepast voor handicap",
+            "fr": "Années de vie ajustées pour invalidité"
+        },
+        {
+            "en": "Belgian National Burden of Disease Study",
+            "nl": "Belgische Nationale Burden of Disease Studie",
+            "fr": "Belgian National Burden of Disease Study"
+        },
+        {
+            "en": "Chart settings",
+            "fr": "Paramètres du graphique",
+            "nl": "Grafiek instellingen"
+        },
+        {
+            "en": "What are the most important diseases in Belgium? Which risk factors contribute most to the overall disease burden? How is the burden of disease evolving over time, and how does it differ across the country? In a context of increasing budgetary constraints, a precise answer to these basic questions is more than ever necessary to inform policy-making.",
+            "nl": "Wat zijn de belangrijkste ziekten in België? Welke risicofactoren dragen het meest bij aan de totale ziektelast? Hoe ontwikkelt de ziektelast zich in de loop der tijd en hoe verschilt deze per regio in het land? In een context van toenemende budgettaire beperkingen is een nauwkeurig antwoord op deze fundamentele vragen meer dan ooit nodig om het beleid te onderbouwen.",
+            "fr": "Quelles sont les maladies les plus importantes en Belgique ? Quels sont les facteurs de risque qui contribuent le plus à la charge de morbidité globale ? Comment cette charge évolue-t-elle au fil du temps et quelles sont ses variations selon les régions ? Dans un contexte de restrictions budgétaires croissantes, il est plus que jamais nécessaire de répondre précisément à ces questions fondamentales pour éclairer les décisions politiques."
+        }
+    ]
+}
