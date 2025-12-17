@@ -22,11 +22,8 @@ library(shiny.i18n)
 library(shinychat)
 library(ellmer)
 library(curl)
-<<<<<<< Updated upstream
 library(querychat)
-=======
 library(shinychat)
->>>>>>> Stashed changes
 
 ## translation
 # i18n <- Translator$new(translation_csvs_path = "./daly_data/")
@@ -218,7 +215,7 @@ if (Sys.info()[1] == "Windows") {
 # .. add to table
 
 ## specify query of database
-qc <- QueryChat$new(dta)
+# qc <- QueryChat$new(dta)
 
 # Define UI for application that draws a histogram
 ui <- tagList(
@@ -261,19 +258,13 @@ ui <- tagList(
         })
       )
     ),
-<<<<<<< Updated upstream
+
     title = HTML(paste0(
       "<a href='https://www.sciensano.be'><img src='sciensano.png' height='20px'></a>&nbsp;&nbsp;&nbsp; <span style='color:#69aa41; font-size:1.1em;'>BeBOD &rsaquo; ",
       i18n$t("Disability-Adjusted Life Years"),
       "<span>"
     )),
-=======
-    title = HTML(
-      paste0("<a href='https://www.sciensano.be'><img src='sciensano.png' height='20px'></a>&nbsp;&nbsp;&nbsp; <span style='color:#69aa41; font-size:1.1em;'>BeBOD &rsaquo; ",
-      i18n$t("Disability-Adjusted Life Years"),
-      "<span>")
-    ),
->>>>>>> Stashed changes
+
     windowTitle = "BeBOD > Disability-Adjusted Life Years",
 
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1115,19 +1106,19 @@ ui <- tagList(
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     ##+                   LLM interaction with data #####
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    tabPanel(
-      title = "AI",
-      icon = icon("database"),
-      sidebarLayout(
-        sidebarPanel(
-          width = 3,
-          qc$ui()
-        ),
-        mainPanel(
-          DT::DTOutput("dt_llm")
-          )
-      )
-    ),
+    # tabPanel(
+    #   title = "AI",
+    #   icon = icon("database"),
+    #   sidebarLayout(
+    #     sidebarPanel(
+    #       width = 3,
+    #       qc$ui()
+    #     ),
+    #     mainPanel(
+    #       DT::DTOutput("dt_llm")
+    #       )
+    #   )
+    # ),
     
 
     #### FOOTER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2299,11 +2290,11 @@ Highcharts.numberFormat(this.point.value, 2) + '</b>';}")) %>%
   #   chat_append("chat", stream)
   # })
   
-  qc_vals <- qc$server()
+  # qc_vals <- qc$server()
   
-  output$dt_llm <- DT::renderDT({
-    qc_vals$df()
-  })
+  # output$dt_llm <- DT::renderDT({
+  #   qc_vals$df()
+  # })
   
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ##+                   DATA-TABLE #####
