@@ -1079,19 +1079,18 @@ ui <- tagList(
     ##+                   LLM interaction with data #####
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     tabPanel(
-      "AI",
+      title = "AI",
       icon = icon("database"),
       sidebarLayout(
         sidebarPanel(
           width = 3,
-          qc$sidebar()
+          qc$ui()
         ),
         mainPanel(
           DT::DTOutput("dt_llm")
           )
       )
-    )
-    ,
+    ),
     
 
     #### FOOTER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2259,8 +2258,8 @@ Highcharts.numberFormat(this.point.value, 2) + '</b>';}")) %>%
   
   qc_vals <- qc$server()
   
-  output$dt <- DT::renderDT({
-    DT::datatable(qc_vals$df())
+  output$dt_llm <- DT::renderDT({
+    qc_vals$df()
   })
   
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
