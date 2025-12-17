@@ -22,7 +22,11 @@ library(shiny.i18n)
 library(shinychat)
 library(ellmer)
 library(curl)
+<<<<<<< Updated upstream
 library(querychat)
+=======
+library(shinychat)
+>>>>>>> Stashed changes
 
 ## translation
 # i18n <- Translator$new(translation_csvs_path = "./daly_data/")
@@ -225,18 +229,51 @@ ui <- tagList(
     position = c("fixed-top"),
     
     #### HEADER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    header =  tagList(
-      selectInput('lang',
-        label="Choose Language",
-        choices = i18n$get_languages(),
-        selected = i18n$get_key_translation()
+    # header =  tagList(
+    #   tags$ul(
+    #     class = "nav navbar-nav navbar-right",
+    #     tags$li(
+    #       style = "display: flex; align-items: center; padding-right: 15px;",
+    #       radioGroupButtons('lang',
+    #                         label="Choose Language",
+    #                         choices = i18n$get_languages(),
+    #                         selected = i18n$get_key_translation()
+    #                         )
+    #       )
+    #     )
+    #   ),
+    header = tagList(
+      tags$ul(
+        class = "nav navbar-nav navbar-right",
+        # Dynamically create one button per language
+        lapply(i18n$get_languages(), function(lang) {
+          tags$li(
+            tags$a(
+              href = "#",
+              class = "navbar-lang-btn",
+              actionLink(
+                inputId = paste0("lang_", lang),
+                label = toupper(lang)
+              ),
+              style = "display: inline-block; padding: 10px 8px; line-height: 20px; font-size: 14px;"
+            )
+          )
+        })
       )
     ),
+<<<<<<< Updated upstream
     title = HTML(paste0(
       "<a href='https://www.sciensano.be'><img src='sciensano.png' height='20px'></a>&nbsp;&nbsp;&nbsp; <span style='color:#69aa41; font-size:1.1em;'>BeBOD &rsaquo; ",
       i18n$t("Disability-Adjusted Life Years"),
       "<span>"
     )),
+=======
+    title = HTML(
+      paste0("<a href='https://www.sciensano.be'><img src='sciensano.png' height='20px'></a>&nbsp;&nbsp;&nbsp; <span style='color:#69aa41; font-size:1.1em;'>BeBOD &rsaquo; ",
+      i18n$t("Disability-Adjusted Life Years"),
+      "<span>")
+    ),
+>>>>>>> Stashed changes
     windowTitle = "BeBOD > Disability-Adjusted Life Years",
 
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1124,9 +1161,15 @@ ui <- tagList(
 server <- function(input, output, session) {
   
   ## --- update translation ----
-  observeEvent(input$lang, {
-    print(input$lang)
-    shiny.i18n::update_lang(input$lang, session=session)
+  # observeEvent(input$lang, {
+  #   print(input$lang)
+  #   shiny.i18n::update_lang(input$lang, session=session)
+  # })
+  # Observe each language button
+  lapply(i18n$get_languages(), function(lang) {
+    observeEvent(input[[paste0("lang_", lang)]], {
+      shiny.i18n::update_lang(lang)
+    }, ignoreInit = TRUE)
   })
 
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
