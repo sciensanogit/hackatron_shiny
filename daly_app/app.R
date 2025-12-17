@@ -22,6 +22,7 @@ library(shiny.i18n)
 library(shinychat)
 library(ellmer)
 library(curl)
+library(querychat)
 
 ## translation
 # i18n <- Translator$new(translation_csvs_path = "./daly_data/")
@@ -212,6 +213,9 @@ if (Sys.info()[1] == "Windows") {
 
 # .. add to table
 
+## specify query of database
+qc <- QueryChat$new(dta)
+
 # Define UI for application that draws a histogram
 ui <- tagList(
   shiny.i18n::usei18n(i18n),
@@ -228,11 +232,11 @@ ui <- tagList(
         selected = i18n$get_key_translation()
       )
     ),
-    title = HTML(
+    title = HTML(paste0(
       "<a href='https://www.sciensano.be'><img src='sciensano.png' height='20px'></a>&nbsp;&nbsp;&nbsp; <span style='color:#69aa41; font-size:1.1em;'>BeBOD &rsaquo; ",
       i18n$t("Disability-Adjusted Life Years"),
       "<span>"
-    ),
+    )),
     windowTitle = "BeBOD > Disability-Adjusted Life Years",
 
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -313,14 +317,14 @@ ui <- tagList(
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     tabPanel(
-      "Treemap",
+      i18n$t("Treemap"),
       icon = icon("th-large"),
       
       # Sidebar with a slider input for number of bins 
       sidebarLayout(
         sidebarPanel(
           width = 3,
-          h3("Chart settings", style = "color:#69aa41;"),
+          h3(i18n$t("Chart settings"), style = "color:#69aa41;"),
           
           pickerInput(
             inputId = "measure_treemap", 
@@ -411,14 +415,14 @@ ui <- tagList(
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     tabPanel(
-      "Trends",
+      i18n$t("Trends"),
       icon = icon("chart-line"),
       
       # Sidebar with a slider input for number of bins
       sidebarLayout(
         sidebarPanel(
           width = 3,
-          h3("Chart settings", style = "color:#69aa41;"),
+          h3(i18n$t("Chart settings"), style = "color:#69aa41;"),
           
           conditionalPanel(
             condition = "input.group_trends == 'Cause'",
@@ -528,14 +532,14 @@ ui <- tagList(
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     tabPanel(
-      "Rankings",
+      i18n$t("Rankings"),
       icon = icon("sort-amount-up"),
       
       # Sidebar with a slider input for number of bins 
       sidebarLayout(
         sidebarPanel(
           width = 3,
-          h3("Chart settings", style = "color:#69aa41;"),
+          h3(i18n$t("Chart settings"), style = "color:#69aa41;"),
           
           pickerInput(
             inputId = "measure_heatmap", 
@@ -718,7 +722,7 @@ ui <- tagList(
     #   sidebarLayout(
     #     sidebarPanel(
     #       width = 3,
-    #       h3("Chart settings", style = "color:#69aa41;"),
+    #       h3(i18n$t("Chart settings"), style = "color:#69aa41;"),
     #       
     #       pickerInput(
     #         inputId = "measure_heatmap", 
@@ -832,14 +836,14 @@ ui <- tagList(
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     tabPanel(
-      "Patterns",
+      i18n$t("Patterns"),
       icon = icon("chart-bar"),
       
       # Sidebar layout
       sidebarLayout(
         sidebarPanel(
           width = 3,
-          h3("Chart settings", style = "color:#69aa41;"),
+          h3(i18n$t("Chart settings"), style = "color:#69aa41;"),
           
           pickerInput(
             inputId = "measure_bars", 
@@ -973,7 +977,7 @@ ui <- tagList(
     
     
     tabPanel(
-      "Results",
+      i18n$t("Results"),
       icon = icon("database"),
       
       # Sidebar layout
@@ -1070,6 +1074,24 @@ ui <- tagList(
         )
       )
     ),
+    
+    ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    ##+                   LLM interaction with data #####
+    ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    tabPanel(
+      title = "AI",
+      icon = icon("database"),
+      sidebarLayout(
+        sidebarPanel(
+          width = 3,
+          qc$ui()
+        ),
+        mainPanel(
+          DT::DTOutput("dt_llm")
+          )
+      )
+    ),
+    
 
     #### FOOTER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     footer = tagList(
@@ -2223,16 +2245,21 @@ Highcharts.numberFormat(this.point.value, 2) + '</b>';}")) %>%
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ##+                   CHATBOT #####
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  
 
-  chat <-
-    ellmer::chat_openai(
-      system_prompt = "Respond to the user as succinctly as possible."
-    )
+  # chat <-
+  #   ellmer::chat_openai(
+  #     system_prompt = "Respond to the user as succinctly as possible."
+  #   )
+  # 
+  # observeEvent(input$chat_user_input, {
+  #   stream <- chat$stream_async(input$chat_user_input)
+  #   chat_append("chat", stream)
+  # })
   
-  observeEvent(input$chat_user_input, {
-    stream <- chat$stream_async(input$chat_user_input)
-    chat_append("chat", stream)
+  qc_vals <- qc$server()
+  
+  output$dt_llm <- DT::renderDT({
+    qc_vals$df()
   })
   
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
