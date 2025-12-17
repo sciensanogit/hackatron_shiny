@@ -228,11 +228,11 @@ ui <- tagList(
         selected = i18n$get_key_translation()
       )
     ),
-    title = HTML(
+    title = HTML(paste0(
       "<a href='https://www.sciensano.be'><img src='sciensano.png' height='20px'></a>&nbsp;&nbsp;&nbsp; <span style='color:#69aa41; font-size:1.1em;'>BeBOD &rsaquo; ",
       i18n$t("Disability-Adjusted Life Years"),
       "<span>"
-    ),
+    )),
     windowTitle = "BeBOD > Disability-Adjusted Life Years",
 
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
