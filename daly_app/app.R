@@ -22,6 +22,7 @@ library(shiny.i18n)
 library(shinychat)
 library(ellmer)
 library(curl)
+library(querychat)
 
 ## translation
 # i18n <- Translator$new(translation_csvs_path = "./daly_data/")
@@ -211,6 +212,9 @@ if (Sys.info()[1] == "Windows") {
 # col_all <- settings$highcharter$col
 
 # .. add to table
+
+## specify query of database
+qc <- QueryChat$new(dta)
 
 # Define UI for application that draws a histogram
 ui <- tagList(
@@ -1070,6 +1074,25 @@ ui <- tagList(
         )
       )
     ),
+    
+    ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    ##+                   LLM interaction with data #####
+    ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    tabPanel(
+      "AI",
+      icon = icon("database"),
+      sidebarLayout(
+        sidebarPanel(
+          width = 3,
+          qc$sidebar()
+        ),
+        mainPanel(
+          DT::DTOutput("dt_llm")
+          )
+      )
+    )
+    ,
+    
 
     #### FOOTER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     footer = tagList(
@@ -2223,16 +2246,21 @@ Highcharts.numberFormat(this.point.value, 2) + '</b>';}")) %>%
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ##+                   CHATBOT #####
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  
 
-  chat <-
-    ellmer::chat_openai(
-      system_prompt = "Respond to the user as succinctly as possible."
-    )
+  # chat <-
+  #   ellmer::chat_openai(
+  #     system_prompt = "Respond to the user as succinctly as possible."
+  #   )
+  # 
+  # observeEvent(input$chat_user_input, {
+  #   stream <- chat$stream_async(input$chat_user_input)
+  #   chat_append("chat", stream)
+  # })
   
-  observeEvent(input$chat_user_input, {
-    stream <- chat$stream_async(input$chat_user_input)
-    chat_append("chat", stream)
+  qc_vals <- qc$server()
+  
+  output$dt <- DT::renderDT({
+    DT::datatable(qc_vals$df())
   })
   
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
