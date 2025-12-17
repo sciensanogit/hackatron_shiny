@@ -102,9 +102,15 @@ ui <- navbarPage(
      data.intro = "Explore the estimates in different formats."
      ),
 
-    HTML("<h2 style='color:#69aa41;'>Download all estimates</h2>"),
-    HTML("<p>All estimates can be downloaded in <a href='https://arrow.apache.org/docs/r/reference/read_parquet.html' target='_blank'>Parquet format</a> via Zenodo:</p>"),
-    HTML(sprintf("<p><a href='https://doi.org/%s' target='_blank'><img src='https://zenodo.org/badge/DOI/%s.svg' alt='DOI'></a></p>", zenodo_link, zenodo_link)),
+   introBox(
+     tags$div(
+       HTML("<h2 style='color:#69aa41;'>Download all estimates</h2>"),
+       HTML("<p>All estimates can be downloaded in <a href='https://arrow.apache.org/docs/r/reference/read_parquet.html' target='_blank'>Parquet format</a> via Zenodo:</p>"),
+       HTML(sprintf("<p><a href='https://doi.org/%s' target='_blank'><img src='https://zenodo.org/badge/DOI/%s.svg' alt='DOI'></a></p>", zenodo_link, zenodo_link)),
+     ),
+     data.step = 5,
+     data.intro = "Here you can download the estimates."
+   ),
     
     HTML("<h2 style='color:#69aa41;'>Citation</h2>"),
     HTML(sprintf("<p class='alert alert-warning'>Robby De Pauw, Vanessa Gorasso, Aline Scohy, Sarah Nayani, Rani Claerman, Laura Van den Borre, Jozefien Wellekens & Brecht Devleesschauwer. (2025). BeBOD estimates of mortality, years of life lost, prevalence, years lived with disability, and disability-adjusted life years for 38 causes, 2013-2022 (v2025-06-26) [Data set]. Zenodo. https://doi.org/%s</p>", zenodo_link)),
