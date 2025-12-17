@@ -25,7 +25,7 @@ ui <- navbarPage(
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ##+                   INFO #####
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  
+  tabsetPanel(id = "test",
   tabPanel(
     "Info",
     icon = icon("info-circle"),
@@ -84,7 +84,7 @@ ui <- navbarPage(
      tags$div(
        HTML("<h2 style='color:#69aa41;'>Explore our estimates</h2>"),
        
-       HTML("<h4><i class='fa fa-th-large'></i>&nbsp; Treemap</h4>"),
+       actionLink("link_to_Treemap", HTML("<h4><i class='fa fa-th-large'></i>&nbsp; Treemap</h4>")),
        p("Explore the main causes of death, years of life lost, number of cases/prevalence, years lived with disability, and disability-adjusted life years by age, sex, region and year."),
        
        HTML("<h4><i class='fa fa-chart-line'></i>&nbsp; Trends</h4>"),
@@ -123,7 +123,8 @@ ui <- navbarPage(
   tabPanel(
     "Treemap",
     icon = icon("th-large")
-  ),
+  )),
+  
   
   #### FOOTER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   tags$script(src = "https://kit.fontawesome.com/dd752de6fc.js"),
@@ -149,12 +150,18 @@ ui <- navbarPage(
     align = "left")
 )
 
+
 server <- function(input, output, session) {
   observeEvent(input$Help,
                introjs(session, options = list("nextLabel"="Next",
                                                "prevLabel"="Back",
                                                "skipLabel"="Close"))
-  )
+               )
+  
+  observeEvent(input$link_to_Treemap, {
+    updateTabsetPanel(session, "test", "Treemap")
+  })
+
 }
 
 
