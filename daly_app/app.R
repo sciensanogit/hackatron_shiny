@@ -7,7 +7,7 @@ library(DT)
 library(forcats)
 library(googleVis)
 library(highcharter)
-# library(openxlsx)
+library(bslib)
 library(shiny)
 library(shinyWidgets)
 library(shinyjs)
@@ -19,6 +19,9 @@ library(DBI)
 library(RPostgres)
 library(dbplyr)
 library(shiny.i18n)
+library(shinychat)
+library(ellmer)
+library(curl)
 
 ## translation
 i18n <- Translator$new(translation_csvs_path = "./daly_data/")
@@ -1050,6 +1053,11 @@ ui <- navbarPage(
           multiple = TRUE,
           selected = "BE"
         ),
+        
+        chat_ui(
+          id = "chat",
+          messages = "**Hello!** How can I help you today?"
+        )
         
       ),
       
@@ -2201,8 +2209,24 @@ Highcharts.numberFormat(this.point.value, 2) + '</b>';}")) %>%
   
   
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  ##+                   CHATBOT #####
+  ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  
+
+  chat <-
+    ellmer::chat_openai(
+      system_prompt = "Respond to the user as succinctly as possible."
+    )
+  
+  observeEvent(input$chat_user_input, {
+    stream <- chat$stream_async(input$chat_user_input)
+    chat_append("chat", stream)
+  })
+  
+  ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ##+                   DATA-TABLE #####
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  
   dta_dt <-
     reactive({
       out <-
