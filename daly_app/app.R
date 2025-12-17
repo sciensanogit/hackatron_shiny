@@ -145,14 +145,7 @@ if (Sys.info()[1] == "Windows") {
   dta3 <- read_feather("daly_data/BeBoD-DALY-ALL-WIDE-2013-2022.feather")
 } else {
   ## create connection to DB
-  con <- DBI::dbConnect(RPostgres::Postgres(),
-                        dbname = 'BeBOD', 
-                        host = 'posit-postgresql.sciensano.be', # i.e. 'ec2-54-83-201-96.compute-1.amazonaws.com'
-                        port = 5432, # or any other port specified by your DBA
-                        user = 'bebod',
-                        password = '3U<DGZ$111q!@H{cv*89')
-  dta3 <- dbReadTable(con, "daly_all_wide_2013_2022")
-  # dta3 <- read_feather("/data/burden/data/daly2022/BeBoD-DALY-ALL-WIDE-2013-2022.feather")
+  dta3 <- read_feather("/data/burden/data/daly2022/BeBoD-DALY-ALL-WIDE-2013-2022.feather")
 }
 dta3$AGE <- fct_age(dta3$AGE)
 colnames(dta3) <- tolower(colnames(dta3))
