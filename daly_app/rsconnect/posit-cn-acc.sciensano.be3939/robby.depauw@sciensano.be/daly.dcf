@@ -1,0 +1,12 @@
+name: daly
+title: daly
+username: robby.depauw@sciensano.be
+account: robby.depauw@sciensano.be
+server: posit-cn-acc.sciensano.be:3939
+hostUrl: http://posit-cn-acc.sciensano.be:3939/__api__
+appId: 182
+bundleId: 2046
+url: http://posit-cn-acc.sciensano.be:3939/content/a0fb023e-492d-47ca-b73a-31c0561ebb53/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

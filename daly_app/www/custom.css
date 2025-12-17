@@ -1,0 +1,49 @@
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
+  padding-top: 70px; /* adjust this to your navbar height */
+
+}
+
+footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #eee;
+  color: #333;
+  border-top: 1px solid #ddd;
+}
+
+.btn-help,
+.btn-help:hover,
+.btn-help:active,
+.btn-help:focus,
+.btn-help:visited {
+  cursor: help;
+  background-color: inherit;
+  border: none;
+}
+
+@media (max-width: 767px) {
+  .navbar-fixed-top {
+    position: static !important;
+  }
+  body {
+  padding-top: 0 !important;
+  }
+}
