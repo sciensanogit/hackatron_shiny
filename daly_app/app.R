@@ -18,6 +18,13 @@ library(shinyBS)
 library(DBI)
 library(RPostgres)
 library(dbplyr)
+library(shiny.i18n)
+
+## translation
+i18n <- Translator$new(translation_csvs_path = "./daly_data/")
+# i18n$set_translation_language("en")
+i18n$set_translation_language("fr")
+# i18n$set_translation_language("nl")
 
 ## additional info
 zenodo_link <- "10.5281/zenodo.15574409"
@@ -215,13 +222,17 @@ ui <- navbarPage(
   position = c("fixed-top"),
   
   #### HEADER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  
+  header = tagList(shiny.i18n::usei18n(i18n)),
   title =
     HTML(
-      "<a href='https://www.sciensano.be'><img src='sciensano.png' height='20px'></a>&nbsp;&nbsp;&nbsp; <span style='color:#69aa41; font-size:1.1em;'>BeBOD &rsaquo; Disability-Adjusted Life Years<span>"
+      paste0(
+        "<a href='https://www.sciensano.be'><img src='sciensano.png' height='20px'></a>&nbsp;&nbsp;&nbsp; <span style='color:#69aa41; font-size:1.1em;'>BeBOD &rsaquo; ",
+        i18n$t("Disability-Adjusted Life Years"),
+        "<span>"
+      )
     ),
   windowTitle = "BeBOD > Disability-Adjusted Life Years",
-  
+
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   ##+                   INFO #####
   ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
