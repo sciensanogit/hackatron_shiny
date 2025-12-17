@@ -7,19 +7,30 @@
     "translation": [
         {
             "en": "Disability-Adjusted Life Years",
-            "nl": "Levensjaren aangepast voor handicap",
+            "nl": "Levensjaren aangepast aan invaliditeit",
             "fr": "Années de vie ajustées pour invalidité"
         },
         {
             "en": "Belgian National Burden of Disease Study",
-            "nl": "Belgische Nationale Burden of Disease Studie",
-            "fr": "Belgian National Burden of Disease Study"
+            "nl": "Belgisch Nationaal Onderzoek naar de Ziektelast",
+            "fr": "Étude nationale belge sur la charge de morbidité"
         },
+        {"en": "Info", "nl": "Info", "fr": "Infos"},
+        {"en": "Treemap", "nl": "Treemap", "fr": "Treemap"},     
+        {"en": "Trends", "nl": "Trends", "fr": "Tendances"},    
+        {"en": "Patterns", "nl": "Patronen", "fr": "Motifs"},
+        {"en": "Rankings", "nl": "Ranglijsten", "fr": "Classements"},     
+        {"en": "Results", "nl": "Resultaten", "fr": "Résultats"},
         {
             "en": "Chart settings",
             "fr": "Paramètres du graphique",
             "nl": "Grafiek instellingen"
         },
+        // {
+        //     "en": "Measure",
+        //     "fr": "Mesure",
+        //     "nl": "Maatstaf"
+        // },
         {
             "en": "What are the most important diseases in Belgium? Which risk factors contribute most to the overall disease burden? How is the burden of disease evolving over time, and how does it differ across the country? In a context of increasing budgetary constraints, a precise answer to these basic questions is more than ever necessary to inform policy-making.",
             "nl": "Wat zijn de belangrijkste ziekten in België? Welke risicofactoren dragen het meest bij aan de totale ziektelast? Hoe ontwikkelt de ziektelast zich in de loop der tijd en hoe verschilt deze per regio in het land? In een context van toenemende budgettaire beperkingen is een nauwkeurig antwoord op deze fundamentele vragen meer dan ooit nodig om het beleid te onderbouwen.",

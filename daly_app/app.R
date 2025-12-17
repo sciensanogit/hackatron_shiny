@@ -313,14 +313,14 @@ ui <- tagList(
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     tabPanel(
-      "Treemap",
+      i18n$t("Treemap"),
       icon = icon("th-large"),
       
       # Sidebar with a slider input for number of bins 
       sidebarLayout(
         sidebarPanel(
           width = 3,
-          h3("Chart settings", style = "color:#69aa41;"),
+          h3(i18n$t("Chart settings"), style = "color:#69aa41;"),
           
           pickerInput(
             inputId = "measure_treemap", 
@@ -411,14 +411,14 @@ ui <- tagList(
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     tabPanel(
-      "Trends",
+      i18n$t("Trends"),
       icon = icon("chart-line"),
       
       # Sidebar with a slider input for number of bins
       sidebarLayout(
         sidebarPanel(
           width = 3,
-          h3("Chart settings", style = "color:#69aa41;"),
+          h3(i18n$t("Chart settings"), style = "color:#69aa41;"),
           
           conditionalPanel(
             condition = "input.group_trends == 'Cause'",
@@ -528,14 +528,14 @@ ui <- tagList(
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     tabPanel(
-      "Rankings",
+      i18n$t("Rankings"),
       icon = icon("sort-amount-up"),
       
       # Sidebar with a slider input for number of bins 
       sidebarLayout(
         sidebarPanel(
           width = 3,
-          h3("Chart settings", style = "color:#69aa41;"),
+          h3(i18n$t("Chart settings"), style = "color:#69aa41;"),
           
           pickerInput(
             inputId = "measure_heatmap", 
@@ -718,7 +718,7 @@ ui <- tagList(
     #   sidebarLayout(
     #     sidebarPanel(
     #       width = 3,
-    #       h3("Chart settings", style = "color:#69aa41;"),
+    #       h3(i18n$t("Chart settings"), style = "color:#69aa41;"),
     #       
     #       pickerInput(
     #         inputId = "measure_heatmap", 
@@ -832,14 +832,14 @@ ui <- tagList(
     ##++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     tabPanel(
-      "Patterns",
+      i18n$t("Patterns"),
       icon = icon("chart-bar"),
       
       # Sidebar layout
       sidebarLayout(
         sidebarPanel(
           width = 3,
-          h3("Chart settings", style = "color:#69aa41;"),
+          h3(i18n$t("Chart settings"), style = "color:#69aa41;"),
           
           pickerInput(
             inputId = "measure_bars", 
@@ -973,7 +973,7 @@ ui <- tagList(
     
     
     tabPanel(
-      "Results",
+      i18n$t("Results"),
       icon = icon("database"),
       
       # Sidebar layout
