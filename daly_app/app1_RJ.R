@@ -1,8 +1,20 @@
 library(shiny)
 library(bslib)
+library(rintrojs)
+library(ggplot2)
+library(dplyr)
+
+data <- read.csv2("./daly_data/Belgium_export-nation.csv", sep = ";")
+data$date <- as.Date(data$date)
+data$value_pmmv <- as.numeric(data$value_pmmv)
 
 ui <- page_navbar(
+  introjsUI(),
+  nav_spacer(),
   # Navigation bar ----
+  introBox(
+    actionButton("Help", "Press for instruction")
+  ),
   fillable=F, navbar_options = navbar_options(underline = FALSE, theme="dark"),
   nav_item(tags$a(tags$span(id="lg", "NL"))),
   nav_item(tags$a(tags$span(id="lg", "FR"))),
@@ -48,8 +60,8 @@ ui <- page_navbar(
   ),
   
   # Interface ----
-  
-  nav_panel(class="m-0 p-0",title="",
+    nav_panel(class="m-0 p-0",title="",
+              introBox(
             card(class= "border-0 mt-2 mt-xxl-6 mb-0 p-0 sm-shadow card_custom",
                  card_header(class="text-center bg-white fw-bold h5 border-bottom border-secondary border-3 mx-3 mx-sm-4 my-4",
                              "BeBOD estimates of the burden of disease"),
@@ -74,7 +86,10 @@ ui <- page_navbar(
                            )
                           
                  )
-                 ),
+            ),
+            data.step = 1,
+            data.intro = "This is an introduction."
+              ), 
                  card(class= "border-0 mt-2 mt-xxl-6 mb-0 p-0 sm-shadow card_custom",
                       card_header(class="text-center bg-white fw-bold h5 border-bottom border-secondary border-3 mx-3 mx-sm-4 my-4",
                                   "Explore our estimates"),
@@ -104,65 +119,44 @@ ui <- page_navbar(
                                 )
                                 
                       ),
+                 nav_spacer(),
+                 card(class="border-2 border-info text-primary mx-0 mx-sm-2 mb-xxl-4 p-0 shadow-none",
+                      card_body(
+                        plotOutput("plot", click = "plot_click"), 
+                        textOutput("coords")
+                        )
+                      ),
                  card(class="border-2 border-info text-primary mx-0 mx-sm-2 mb-xxl-4 p-0 shadow-none",
                       layout_column_wrap(width = NULL, class="map_plot_resize gap-0", heights_equal = "row",
                                          card_body(class="m-lg-1 m-lg-3 p-0","Robby De Pauw, Vanessa Gorasso, Aline Scohy, Sarah Nayani, Rani Claerman, Laura Van den Borre, Jozefien Wellekens & Brecht Devleesschauwer. (2025). BeBOD estimates of mortality, years of life lost, prevalence, years lived with disability, and disability-adjusted life years for 38 causes, 2013-2022 (v2025-06-26) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.15574409")
                       )
                  )
+                 )
                  
             )
-  ),
-  
-  # Map and plots ----  
-  # Use id in div because navset does not allow class option
-  tags$div(id="tab", class="mt-xxl-5 mb-0 p-0 card_custom",
-           navset_card_tab(
-             ## SARS-CoV-2 ----
-             nav_panel("SARS-CoV-2",
-                       card_body(class="mx-3 mx-sm-4 my-2 p-0",      
-                                 layout_column_wrap(card(class="border-0 mb-xxl-4 p-0 pb-1 shadow-none",
-                                                         card_header(class="text-center bg-white fw-bold h6 border-0 my-1 py-2", "Viral load", tooltip(tags$span(class="bi bi-info-circle-fill"), placement="right")),
-                                                         card_body(class="p-0",
-                                                                   card(class="border-0 shadow-none",
-                                                                        card_header(class="border-0 text-center bg-white p-0 mt-0 mb-3 d-flex justify-content-center align-items-center", 
-                                                                                    tags$button(id = "prevButton_sars", type = "button", class = "btn btn-outline-secondary py-1 px-1 me-2", tags$span(class="bi bi-caret-left-fill")),
-                                                                                    tags$select(id = "customSelect_sars", class = "form-select", style = "max-width:250px",
-                                                                                                tags$optgroup(label = level[4], 
-                                                                                                              lapply(names(list_country), function(id) {
-                                                                                                                tags$option(value = id, list_country[id])
-                                                                                                              })
-                                                                                                ),
-                                                                                                tags$optgroup(label = level[3], 
-                                                                                                              lapply(names(list_region), function(id) {
-                                                                                                                tags$option(value = id, list_region[id])
-                                                                                                              })
-                                                                                                ),
-                                                                                                tags$optgroup(label = level[2], 
-                                                                                                              lapply(names(list_province), function(id) {
-                                                                                                                tags$option(value = id, list_province[id])
-                                                                                                              })
-                                                                                                ),
-                                                                                                tags$optgroup(label = level[1], 
-                                                                                                              lapply(names(list_wwtp), function(id) {
-                                                                                                                tags$option(value = id, list_wwtp[id])
-                                                                                                              })
-                                                                                                              
-                                                                                                )),
-                                                                                    tags$button(id = "nextButton_sars", type = "button", class = "btn btn-outline-secondary py-1 px-1 ms-2", tags$span(class="bi bi-caret-right-fill"))
-                                                                        ),
-                                                                        
-                                                                        
-                                                                        card_body(class="p-0", spinner, as_fill_carrier(min_height = "1px", uiOutput("viral_sars")))
-                                                                   )
-                                                         )
-                                                    )
-                                 )
-                       )
-                       
-             )
 )
 
 server <- function(input, output, session) {
+  observeEvent(input$Help,
+               introjs(session, options = list("nextLabel"="Next",
+                                               "prevLabel"="Back",
+                                               "skipLabel"="Close"))
+  )
+  
+  output$plot <- renderPlot({ 
+    data |> 
+      ggplot(aes(date, value_pmmv)) + 
+      geom_point() +
+      scale_x_date(date_labels = "%d/%m/%y (W%V)", breaks = "8 weeks") +
+      labs(title = "Click anywhere on the plot", x = "", y = "Viral ratio")
+  })
+  
+  output$coords <- renderText({ 
+    req(input$plot_click) # Ensure values are available before proceeding 
+    x <- round(input$plot_click$x, 2) 
+    y <- round(input$plot_click$y, 2) 
+    glue::glue("({x}, {y})") 
+  })
   
 }
 
